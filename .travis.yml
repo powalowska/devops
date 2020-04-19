@@ -1,0 +1,10 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker build -t lucypowalowska/frontend -f frontend/Dockerfile.dev ./frontend
+
+script:
+  - docker run -e CI=true lucypowalowska/frontend yarn test

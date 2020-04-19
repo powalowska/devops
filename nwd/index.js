@@ -31,7 +31,7 @@ app.get('/nwd/:l1/:l2', (req, res) => {
 		if (!value) {
 			value = NWD(l1, l2);
 		}
-		res.send(`NWD z ${l1} and ${l2} to ${value}`);
+		res.send(`NWD z ${l1} and ${l2} to ${value} \n`);
 		client.set(key, parseInt(value));
 	});
 });
