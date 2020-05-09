@@ -36,3 +36,292 @@
     transform: rotate(360deg);
   }
 }
+
+html,
+body {
+    box-sizing: border-box;
+    margin: 0 auto;
+    max-width: 60rem;
+    font-family: "Quicksand", Arial, sans-serif;
+}
+
+.name h1 {
+    font-weight: 600;
+    font-size: 2rem;
+    color: #2d3c49;
+    margin-bottom: 0.2rem;
+}
+
+.position-title {
+    font-size: 1.3rem;
+    color: #2d3c49;
+    margin-top: 0.2rem;
+}
+
+.logo-container,
+.name {
+    width: 100%;
+    text-align: center;
+}
+
+/******* Main content *******/
+
+.main-content > h2 {
+    display: none;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+hr {
+    height: 0.3rem;
+    border: none;
+    background: #2d3c49;
+    background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 500, from(#7d97ad), to(#fff));
+    width: 100%;
+    margin-top: -0.8rem;
+}
+
+.introduction-content {
+    background: url(background.jpg) no-repeat center/cover fixed;
+    max-width: 100%;
+    min-height: 22rem;
+    box-shadow: 0.3rem 0.4rem 0.1rem #999;
+    position: relative;
+}
+
+.introduction-content > .introduction {
+    position: absolute;
+    padding-top: 2rem;
+    bottom: 0;
+    width: 100%;
+    background: inherit;
+    background-attachment: fixed;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.introduction-content > .introduction::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: inherit;
+    background-attachment: fixed;
+    filter: blur(0.25rem);
+}
+
+.introduction-content > .introduction::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.introduction h2 {
+    position: relative;
+    z-index: 1;
+    font-size: 1.2rem;
+    vertical-align: middle;
+    color: #fff;
+    overflow: hidden;
+    border-right: 0.2rem solid #7d97ad;
+    letter-spacing: 0.1rem;
+    margin: 0 auto 1.5rem;
+    padding: 0 0.4rem;
+}
+
+.main-container h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: #2d3c49;
+    margin-top: 0;
+}
+
+.container {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.containers {
+    font-size: 1.5rem;
+    color: #fff;
+    padding: 5rem 0.5rem;
+    margin: 0 auto;
+    border-radius: 0.3rem;
+    width: 18rem;
+    text-align: center;
+    padding-bottom: 0;
+    box-sizing: border-box;
+}
+
+.item-result {
+    display: inline-block;
+    padding: 0.8rem;
+    font-size: 2.1rem;
+    color: #000;
+}
+
+.item-bold {
+    font-weight: 700;
+}
+
+.input-number {
+    display: inline-block;
+    padding: 0.1rem;
+    margin: 0.2rem;
+    font-size: 1.7rem;
+    color: #000;
+}
+
+.btn {
+    min-width: 6rem;
+    padding: 0.9rem 0.9rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: #2d3c49;
+    color: #fff;
+    border-radius: 1.3rem;
+    text-decoration: none;
+    transition: all 1.2s;
+    display: block;
+    margin: 0 auto;
+}
+
+.btn-calc {
+    margin-top: 20px;
+}
+
+.btn:hover {
+    background-color: #7d97ad;
+    color: #000;
+}
+
+/**********************************/
+/******* Tablet: Apple iPad *******/
+/**********************************/
+
+@media screen and (min-width: 640px) {
+
+    header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .logo-container,
+    .name {
+        flex: 1 1 30%;
+    }
+
+    .name {
+        box-sizing: border-box;
+        text-align: right;
+        padding: 0.3rem;
+    }
+
+    .name h1 {
+        font-size: 2.5rem;
+        font-weight: 100;
+        margin-bottom: 1.7rem;
+    }
+
+    .position-title {
+        color: #2d3c49;
+        font-size: 1.4rem;
+        letter-spacing: 0.25rem;
+        margin-top: -1.6rem;
+    }
+
+    /******* Main content *******/
+
+    .introduction-content {
+        background: url(background.jpg) no-repeat center/cover fixed;
+        max-width: 100%;
+        min-height: 29rem;
+    }
+
+    .main-container h2 {
+        padding: 0.8rem;
+        font-size: 2.5rem;
+    }
+
+    .container {
+        flex-direction: row;
+    }
+
+    .containers {
+        margin: 0 auto;
+        width: calc(50% - 1.5rem);
+    }
+
+}
+
+/***********************/
+/******* Desktop *******/
+/***********************/
+
+@media screen and (min-width: 961px) {
+    .name h1 {
+        font-size: 2.8rem;
+        font-weight: 100;
+        padding-top: 0.6rem;
+    }
+
+    /******* Main content *******/
+
+    .introduction-content {
+        background: url(background.jpg) no-repeat fixed;
+        background-size: cover;
+        min-height: 30rem;
+    }
+
+    .introduction h2 {
+        white-space: nowrap;
+        animation: typing 4s steps(40, end),
+        type-writing-cursor 1s step-end infinite;
+    }
+
+    @keyframes typing {
+        from {
+            width: 0;
+        }
+        to {
+            width: 65%;
+        }
+    }
+
+    @keyframes type-writing-cursor {
+        from, to {
+            border-color: transparent;
+        }
+        50% {
+            border-color: #7d97ad;
+        }
+    }
+
+    .main-container h2 {
+        padding: 0.8rem;
+        font-size: 2.5rem;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .containers {
+        margin: 0 auto;
+        width: calc(50% - 1.5rem);
+    }
+}

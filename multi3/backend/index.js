@@ -17,10 +17,8 @@ const pgClient = new Pool({
   password: keys.pgPassword,
   database: keys.pgDatabase
 });
-
 pgClient
   .on('error', () => console.log('Cannot connect to PG database.'));
-
 pgClient
   .query('CREATE TABLE IF NOT EXISTS values (number INT)')
   .catch(err => console.log(err));
@@ -41,5 +39,44 @@ app.listen(port, () => {
 })
 
 app.get('/', (request, response) => {
-  response.status(200).send("Hello from Backend!");
+  response.status(200).send('Hello from Backend!');
+});
+
+app.get('/max/:first,:second,:third', (request, response) => {
+  let first = parseInt(request.params.first);
+  let second = parseInt(request.params.second);
+  let third = parseInt(request.params.third);
+  let maxStr = [first, second, third].toString();
+
+  redisClient.get(maxStr, (err, maxFromCache) => {
+    let result = {};
+    if (!maxFromCache) {
+      let max = Math.max(first, second, third);
+      redisClient.set(maxStr, max);
+      pgClient
+        .query('INSERT INTO values (number) VALUES ($1)', [max])
+        .catch(error => console.log(`Błąd: ${error}`));
+      result.maxValue = max;
+      result.description = 'to jest Twój wynik z obliczeń';
+    }
+    else {
+      result.maxValue = maxFromCache;
+      result.description = 'to jest Twój wynik z cache';
+    }
+    response.send(result);
+  });
+});
+
+app.get('/results', (request, response) => {
+  pgClient.query('SELECT * FROM values;', (error, result) => {
+    if (error) {
+      throw error;
+    }
+    if (!result.rows) {
+      response.json([]);
+    }
+    else {
+      response.json(result.rows);
+    }
+  });
 });
