@@ -1,0 +1,51 @@
+---
+apiVersion: v1
+kind: Service
+
+metadata:
+    name: mybackend-service
+
+spec:
+    type: NodePort
+    ports:
+        - targetPort: 5000
+          port: 5000
+          nodePort: 30009
+
+    selector:
+        app: my-backend
+        type: backend
+
+---
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: my-backend-deployment
+  labels:
+    app: my-backend
+    type: backend
+
+spec:
+  template:
+    metadata:
+      name: mybackend-pod
+      labels:
+        app: my-backend
+        type: backend
+    spec:
+      containers:
+        - name: my-backend-container
+          image: lucypowalowska/mybackend3
+          envFrom:
+            - configMapRef:
+                name: myapp-config
+            - secretRef:
+                name: postgres-secret
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-backend
+      type: backend
+---

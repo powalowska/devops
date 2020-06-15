@@ -1,46 +1,56 @@
-const keys = require('./keys');
-
 const express = require('express');
+const {v4: uuidv4} = require('uuid');
+const redis = require('redis');
+const { Pool } = require('pg');
+const keys = require("./keys");
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
+const appId = uuidv4();
+
+//const port = 5000;
+
 app.use(cors());
 app.use(bodyParser.json());
 
-
-const { Pool } = require('pg');
-const pgClient = new Pool({
-  host: keys.pgHost,
-  port: keys.pgPort,
-  user: keys.pgUser,
-  password: keys.pgPassword,
-  database: keys.pgDatabase
-});
-
-pgClient
-  .on('error', () => console.log('Cannot connect to PG database.'));
-pgClient
-  .query('CREATE TABLE IF NOT EXISTS values (number INT)')
-  .catch(err => console.log(err));
-
-
-const redis = require('redis');
 const redisClient = redis.createClient({
-  host: keys.redisHost,
-  port: keys.redisPort,
-  retry_strategy: () => 1000
+    host: keys.redisHost,
+    port: keys.redisPort,
+    retry_strategy: () => 1000
 });
 
 
-const port = 5000;
-app.listen(port, () => {
-  console.log(`Backend is listening on port ${port}`);
-  console.log(keys);
-})
+const pgClient = new Pool({
+    host: keys.pgHost,
+    port: keys.pgPort,
+    user: keys.pgUser,
+    password: keys.pgPassword,
+    database: keys.pgDatabase
+});
 
-app.get('/', (request, response) => {
-  response.status(200).send('Hello from Backend!');
+console.log(keys);
+
+pgClient
+    .on('error', () => console.log('Cannot connect to PG database.'));
+pgClient
+    .query('CREATE TABLE IF NOT EXISTS values (number INT)')
+    .catch(err => console.log(err));
+
+
+app.get('/', (req, resp) => {
+    const key = 'id';
+	let chekIfFirst = '';
+    redisClient.get(key, (err, appIdval) => {
+        if (appIdval !== null) {
+			chekIfFirst = `- no, before you was ${appIdval}`;
+        } else {
+			chekIfFirst = `- yes, you are first`;
+		}
+        resp.send(`Hello ${appId} -> ${chekIfFirst}!`);
+        redisClient.set(key, appId);
+    });
+
 });
 
 app.get('/max/:first,:second,:third', (request, response) => {
@@ -80,4 +90,8 @@ app.get('/results', (request, response) => {
       response.json(result.rows);
     }
   });
+});
+
+app.listen(keys.backPort, err => {
+    console.log(`Backend listening on port ${keys.backPort}`);
 });

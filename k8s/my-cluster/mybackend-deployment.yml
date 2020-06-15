@@ -19,7 +19,7 @@ spec:
         spec:
             containers:
                 - name: my-backend-container
-                  image: lucypowalowska/mybackend
+                  image: lucypowalowska/mybackend2
     replicas: 3
     selector:
         matchLabels:

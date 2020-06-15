@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: Service
+
+metadata:
+    name: redis-service
+
+spec:
+    type: ClusterIP
+    ports:
+        - targetPort: 6379
+          port: 6379
+
+    selector:
+        app: my-redis
+        type: cache
+---
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+    name: my-redis-deployment
+    labels:
+        app: my-redis
+        type: cache
+
+spec:
+    template:
+        metadata:
+            name: myapp-pod
+            labels:
+                app: my-redis
+                type: cache
+
+        spec:
+            containers:
+                - name: my-redis-container
+                  image: redis
+
+    replicas: 1
+    selector:
+        matchLabels:
+            app: my-redis
+            type: cache
+---

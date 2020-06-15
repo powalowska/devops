@@ -1,8 +1,9 @@
 {
     "dependencies": {
         "axios": "^0.19.2",
-        "express": "*",
-        "redis": "*"
+        "express": "^4.17.1",
+        "redis": "^3.0.2",
+        "uuid": "^8.1.0"
     },
     "scripts": {
         "start": "node index.js"

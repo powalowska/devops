@@ -1,3 +1,48 @@
+---
+apiVersion: v1
+
+kind: Service
+
+metadata:
+  name: postgres-service
+
+spec:
+  type: ClusterIP
+  ports:
+    - targetPort: 5432
+      port: 5432
+
+  selector:
+    app: my-postgres
+    type: db
+---
+apiVersion: v1
+
+kind: Secret
+
+metadata:
+  name: postgres-secret
+
+data:
+  PGPASSWORD: MTIzcGFzMTIzcGFz
+
+---
+apiVersion: v1
+
+kind: PersistentVolumeClaim
+
+metadata:
+  name: postgres-pvc
+
+spec:
+  accessModes:
+    - ReadWriteOnce
+
+  resources:
+    requests:
+      storage: 100Mi
+
+---
 apiVersion: apps/v1
 
 kind: Deployment
@@ -18,9 +63,9 @@ spec:
 
     spec:
       volumes:
-        - name: postgresvolume
-          persistentVolumeClaim:
-            claimName: postgres-pvc-new
+       - name: postgresvolume
+         persistentVolumeClaim:
+           claimName: postgres-pvc
 
       containers:
         - name: my-postgres-container
@@ -37,7 +82,7 @@ spec:
                   key: PGPASSWORD
             - name: POSTGRES_USER
               valueFrom:
-                secretKeyRef:
+                configMapKeyRef:
                   name: myapp-config
                   key: PGUSER
 
@@ -46,3 +91,4 @@ spec:
     matchLabels:
       type: db
       app: my-postgres
+---

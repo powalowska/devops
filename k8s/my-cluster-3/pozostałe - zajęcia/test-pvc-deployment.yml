@@ -10,7 +10,7 @@ spec:
     - image: alpine
       name: alpine
       command: ["/bin/sh", "-c"]
-      args: ["echo Hello > /opt/data/hello.txt"]
+      args: ["sleep 30000"]
       volumeMounts:
         - mountPath: /opt/data
           name: data-volume

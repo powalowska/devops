@@ -13,8 +13,20 @@ const redisClient = redis.createClient({
 });
 
 app.get('/', (req, resp) => {
-    resp.send(`[${appId} Hello from my backend app]`);
+    const key = 'id';
+	let chekIfFirst = '';
+    redisClient.get(key, (err, appIdval) => {
+        if (appIdval !== null) {
+			chekIfFirst = `- no, before you was ${appIdval}`;
+        } else {
+			chekIfFirst = `- yes, you are first`;
+		}
+        resp.send(`Hello ${appId} -> ${chekIfFirst}!`);
+        redisClient.set(key, appId);
+    });
+
 });
+
 
 app.listen(port, err => {
     console.log(`Backend listening on port ${port}`);
