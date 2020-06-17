@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+
+kind: Service
+
+metadata:
+  name: myfrontend-service
+
+spec:
+  type: ClusterIP
+  ports:
+    - targetPort: 3000
+      port: 80
+
+  selector:
+    app: my-frontend
+    type: frontend
+
+---
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: my-frontend-deployment
+  labels:
+    app: my-frontend
+    type: frontend
+
+spec:
+  template:
+    metadata:
+      name: myfrontend-pod
+      labels:
+        app: my-frontend
+        type: frontend
+    spec:
+      containers:
+        - name: my-frontend-container
+          image: lucypowalowska/myfrontendfinal
+          stdin: true
+
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-frontend
+      type: frontend
+---

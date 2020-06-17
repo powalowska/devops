@@ -21,7 +21,7 @@ const pgClient = new Pool({
 pgClient
   .on('error', () => console.log('Cannot connect to PG database.'));
 pgClient
-  .query('CREATE TABLE IF NOT EXISTS values (number INT)')
+  .query('CREATE TABLE IF NOT EXISTS max_results (number BIGINT);')
   .catch(err => console.log(err));
 
 
@@ -55,7 +55,7 @@ app.get('/max/:first,:second,:third', (request, response) => {
       let max = Math.max(first, second, third);
       redisClient.set(maxStr, max);
       pgClient
-        .query('INSERT INTO values (number) VALUES ($1)', [max])
+        .query('INSERT INTO max_results (number) VALUES ($1);', [max])
         .catch(error => console.log(`Błąd: ${error}`));
       result.maxValue = max;
       result.description = 'to jest Twój wynik z obliczeń';
@@ -69,14 +69,13 @@ app.get('/max/:first,:second,:third', (request, response) => {
 });
 
 app.get('/results', (request, response) => {
-  pgClient.query('SELECT * FROM values;', (error, result) => {
+  pgClient.query('SELECT * FROM max_results;', (error, result) => {
     if (error) {
       throw error;
     }
-    if (!result.rows) {
+    if (!result.rows || !result) {
       response.json([]);
-    }
-    else {
+    } else {
       response.json(result.rows);
     }
   });
