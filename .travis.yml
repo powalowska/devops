@@ -4,7 +4,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t lucypowalowska/frontend -f frontend/Dockerfile.dev ./frontend
+  - docker build -t lucypowalowska/frontend -f ./other-labs/frontend/Dockerfile.dev ./other-labs/frontend
 
 script:
   - docker run -e CI=true lucypowalowska/frontend yarn test
