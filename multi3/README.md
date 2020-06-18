@@ -8,7 +8,7 @@ Calculate max with three numbers.
 * postgres
 * nginx
 
-##commands
+## commands
 `docker-compose up --build`<br />
 `docker-compose down`
 
