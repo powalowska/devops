@@ -8,8 +8,8 @@ Calculate max with three numbers.
 * postgres
 * nginx ingress
 
-##commands
-###apply
+## commands
+### apply
 `cd mybackend`
 
 `docker build -t lucypowalowska/mybackendfinal .`<br />
@@ -29,7 +29,7 @@ Calculate max with three numbers.
 
 You can also apply separated files from separatedfiles folder or run `./mycluster/apply.sh`.
 
-###delete
+### delete
 `kubectl delete ingress ingress-service`<br />
 `kubectl delete svc myfrontend-service`<br />
 `kubectl delete deploy my-frontend-deployment`<br />
