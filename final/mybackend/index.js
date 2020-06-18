@@ -76,9 +76,6 @@ app.get('/max/:first,:second,:third', (request, response) => {
 
 app.get('/results', (request, response) => {
   pgClient.query('SELECT * FROM max_results_final;', (error, result) => {
-    if (error) {
-      throw error;
-    }
     if (!result.rows || !result) {
       response.json([]);
     } else {
